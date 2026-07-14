@@ -1,0 +1,66 @@
+# Agent Container (OpenCode) — Dokploy deployment (HP garage)
+# Builds from Dockerfile in this repo. Git-connected in Dokploy for build: support.
+#
+# Env vars to set in Dokploy (secrets — NOT in this file):
+#   OPENCODE_AUTO_UPDATE=true
+#   OPENCODE_MODE=serve
+#   OPENCODE_PORT=4096
+#   SSH_ENABLED=true
+#   SSH_PUBLIC_KEY=<key>
+#   GITHUB_TOKEN=<token>
+#   PORTAINER_URL=<url>
+#   PORTAINER_API_KEY=<key>
+#   ANTHROPIC_API_KEY=<key>
+#   OPENAI_API_KEY=<key>
+#   GOOGLE_API_KEY=<key>
+#   OPENROUTER_API_KEY=<key>
+#   GROQ_API_KEY=<key>
+services:
+  opencode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${SSH_PORT:-2222}:22"
+      - "${OPENCODE_PORT:-4096}:${OPENCODE_PORT:-4096}"
+    environment:
+      - OPENCODE_MODE=${OPENCODE_MODE:-serve}
+      - OPENCODE_PORT=${OPENCODE_PORT:-4096}
+      - OPENCODE_AUTO_UPDATE=${OPENCODE_AUTO_UPDATE:-false}
+      - OPENCODE_CONFIG_JSON=${OPENCODE_CONFIG_JSON:-}
+      - TZ=${TZ:-}
+      - SSH_ENABLED=${SSH_ENABLED:-false}
+      - SSH_PUBLIC_KEY=${SSH_PUBLIC_KEY:-}
+      - SSH_PASSWORD=${SSH_PASSWORD:-}
+      - GIT_REPO_URL=${GIT_REPO_URL:-}
+      - GIT_BRANCH=${GIT_BRANCH:-}
+      - GIT_USER_NAME=${GIT_USER_NAME:-}
+      - GIT_USER_EMAIL=${GIT_USER_EMAIL:-}
+      - GITEA_URL=${GITEA_URL:-}
+      - GITEA_TOKEN=${GITEA_TOKEN:-}
+      - OPENCODE_SERVER_PASSWORD=${OPENCODE_SERVER_PASSWORD:-}
+      - OPENCODE_SERVER_USERNAME=${OPENCODE_SERVER_USERNAME:-}
+      - OPENCHAMBER_UI_PASSWORD=${OPENCHAMBER_UI_PASSWORD:-}
+      - OPENCHAMBER_PUBLIC_ORIGIN=${OPENCHAMBER_PUBLIC_ORIGIN:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+      - PORTAINER_URL=${PORTAINER_URL:-}
+      - PORTAINER_API_KEY=${PORTAINER_API_KEY:-}
+    volumes:
+      - coder-home:/home/coder
+      - ssh-host-keys:/etc/ssh/host_keys
+    networks:
+      - dokploy-network
+
+volumes:
+  coder-home:
+  ssh-host-keys:
+
+networks:
+  dokploy-network:
+    external: true
