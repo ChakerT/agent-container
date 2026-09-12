@@ -147,7 +147,7 @@ write_opencode_env_file() {
         # Only forward keys that are valid shell identifiers
         [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
         case "$key" in
-            OPENCODE_SERVER_*|ANTHROPIC_*|OPENAI_*|GOOGLE_*|OPENROUTER_*|GROQ_*|GITHUB_TOKEN|GITEA_URL|GITEA_TOKEN|AWS_*|AZURE_*)
+            OPENCODE_SERVER_*|OPENCODE_SHOW_CUSTOM_AGENTS|ANTHROPIC_*|OPENAI_*|GOOGLE_*|OPENROUTER_*|GROQ_*|GITHUB_TOKEN|GITEA_URL|GITEA_TOKEN|AWS_*|AZURE_*|PORTAINER_*|DOKPLOY_*)
                 printf 'export %s=%q\n' "$key" "$val" >> "$env_file"
                 ;;
         esac
