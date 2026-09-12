@@ -51,6 +51,9 @@ services:
       - GITHUB_TOKEN=${GITHUB_TOKEN:-}
       - PORTAINER_URL=${PORTAINER_URL:-}
       - PORTAINER_API_KEY=${PORTAINER_API_KEY:-}
+      - DOKPLOY_URL=${DOKPLOY_URL:-}
+      - DOKPLOY_API_KEY=${DOKPLOY_API_KEY:-}
+      - OPENCODE_SHOW_CUSTOM_AGENTS=${OPENCODE_SHOW_CUSTOM_AGENTS:-false}
     volumes:
       - coder-home:/home/coder
       - ssh-host-keys:/etc/ssh/host_keys
